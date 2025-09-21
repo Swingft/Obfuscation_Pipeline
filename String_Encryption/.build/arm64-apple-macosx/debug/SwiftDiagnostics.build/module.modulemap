@@ -1,0 +1,4 @@
+module SwiftDiagnostics {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftDiagnostics.build/SwiftDiagnostics-Swift.h"
+    requires objc
+}

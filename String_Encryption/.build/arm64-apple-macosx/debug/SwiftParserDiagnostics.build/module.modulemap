@@ -1,0 +1,4 @@
+module SwiftParserDiagnostics {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftParserDiagnostics.build/SwiftParserDiagnostics-Swift.h"
+    requires objc
+}

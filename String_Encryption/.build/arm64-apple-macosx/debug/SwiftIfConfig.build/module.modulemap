@@ -1,0 +1,4 @@
+module SwiftIfConfig {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftIfConfig.build/SwiftIfConfig-Swift.h"
+    requires objc
+}

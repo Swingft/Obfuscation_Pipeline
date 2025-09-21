@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax510.build/master.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/checkouts/swift-syntax/Sources/VersionMarkerModules/SwiftSyntax510/Empty.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax510.build/Empty.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax510.build/Empty.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax510.build/Empty~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax510.build/Empty.swiftdeps"
+  }
+}

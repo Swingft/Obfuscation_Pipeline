@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/master.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/checkouts/swift-syntax/Sources/SwiftSyntaxMacrosTestSupport/Assertions.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/Assertions.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/Assertions.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/Assertions~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/Assertions.swiftdeps"
+  }
+}

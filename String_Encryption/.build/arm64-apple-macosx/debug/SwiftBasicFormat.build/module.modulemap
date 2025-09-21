@@ -1,0 +1,4 @@
+module SwiftBasicFormat {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftBasicFormat.build/SwiftBasicFormat-Swift.h"
+    requires objc
+}

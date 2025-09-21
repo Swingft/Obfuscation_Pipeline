@@ -1,0 +1,101 @@
+{
+  "": {
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/master.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/AttributeStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/AttributeStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/AttributeStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/AttributeStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/AttributeStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/DataSourceConformanceExcluder.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DataSourceConformanceExcluder.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DataSourceConformanceExcluder.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DataSourceConformanceExcluder~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DataSourceConformanceExcluder.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/DebugStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DebugStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DebugStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DebugStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/DebugStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/EntryPointStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EntryPointStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EntryPointStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EntryPointStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EntryPointStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/EnumRawValueCaseStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EnumRawValueCaseStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EnumRawValueCaseStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EnumRawValueCaseStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/EnumRawValueCaseStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/GlobalStringCollertor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/GlobalStringCollertor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/GlobalStringCollertor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/GlobalStringCollertor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/GlobalStringCollertor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/IdentifierStirngExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/IdentifierStirngExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/IdentifierStirngExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/IdentifierStirngExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/IdentifierStirngExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/ImageLiteralStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ImageLiteralStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ImageLiteralStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ImageLiteralStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ImageLiteralStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/InterpolatedStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/InterpolatedStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/InterpolatedStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/InterpolatedStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/InterpolatedStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/LocalizedStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/LocalizedStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/LocalizedStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/LocalizedStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/LocalizedStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/ResourceLikeExcluder.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ResourceLikeExcluder.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ResourceLikeExcluder.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ResourceLikeExcluder~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ResourceLikeExcluder.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/ShortOrBlankStringExcluder.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ShortOrBlankStringExcluder.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ShortOrBlankStringExcluder.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ShortOrBlankStringExcluder~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ShortOrBlankStringExcluder.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/SourceLoc.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/SourceLoc.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/SourceLoc.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/SourceLoc~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/SourceLoc.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/UIKeyLikeStringExtractor.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/UIKeyLikeStringExtractor.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/UIKeyLikeStringExtractor.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/UIKeyLikeStringExtractor~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/UIKeyLikeStringExtractor.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/ViewContainerStringExcluder.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ViewContainerStringExcluder.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ViewContainerStringExcluder.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ViewContainerStringExcluder~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/ViewContainerStringExcluder.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/Sources/Swingft_Encryption/main.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/main.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/main.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/Swingft_Encryption.build/main.swiftdeps"
+  }
+}

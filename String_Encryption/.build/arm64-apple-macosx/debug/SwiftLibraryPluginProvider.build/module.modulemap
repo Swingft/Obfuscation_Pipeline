@@ -1,0 +1,4 @@
+module SwiftLibraryPluginProvider {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftLibraryPluginProvider.build/SwiftLibraryPluginProvider-Swift.h"
+    requires objc
+}

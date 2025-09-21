@@ -1,0 +1,4 @@
+module SwiftRefactor {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftRefactor.build/SwiftRefactor-Swift.h"
+    requires objc
+}

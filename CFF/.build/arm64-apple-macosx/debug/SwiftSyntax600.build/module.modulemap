@@ -1,0 +1,4 @@
+module SwiftSyntax600 {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/SwiftSyntax600.build/SwiftSyntax600-Swift.h"
+    requires objc
+}

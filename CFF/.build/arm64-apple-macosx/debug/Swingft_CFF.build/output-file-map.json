@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/Swingft_CFF.build/master.swiftdeps"
+  },
+  "/Users/seunghye/no_icloud/Obf-pipeline/CFF/Sources/Swingft_CFF/main.swift": {
+    "dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/Swingft_CFF.build/main.d",
+    "object": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/Swingft_CFF.build/main.swift.o",
+    "swiftmodule": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/Swingft_CFF.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/seunghye/no_icloud/Obf-pipeline/CFF/.build/arm64-apple-macosx/debug/Swingft_CFF.build/main.swiftdeps"
+  }
+}

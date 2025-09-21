@@ -1,0 +1,4 @@
+module SwiftSyntax {
+    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftSyntax.build/SwiftSyntax-Swift.h"
+    requires objc
+}
