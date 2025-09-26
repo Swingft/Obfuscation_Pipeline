@@ -401,7 +401,10 @@ final class LoopCollector: SyntaxVisitor {
 
 
 private func shouldSkipDirectory(_ url: URL) -> Bool {
-    url.lastPathComponent.hasPrefix(".")
+    let name = url.lastPathComponent
+        if name.hasPrefix(".") { return true }   
+        if name == "Pods" { return true }
+        return false
 }
 private func findSwiftFiles(at root: URL) -> [URL] {
     var files: [URL] = []

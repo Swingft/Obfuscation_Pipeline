@@ -654,7 +654,7 @@ def run_opaque(root):
     allocator = NameAllocator(pool, already_used)
 
     swift_files = [p for p in root.rglob("*.swift")
-                   if all(seg not in p.as_posix() for seg in ["/.build/","/DerivedData/"])]
+                   if all(seg not in p.as_posix() for seg in ["/.build/","/DerivedData/","/Pods/","/pods/"])]
 
     mod = 0
     for p in swift_files:
