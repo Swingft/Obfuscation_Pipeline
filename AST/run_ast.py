@@ -5,6 +5,7 @@ from .run_swift_syntax import run_swift_syntax
 from .internal_tool.find_internal_files import find_internal_files
 from .internal_tool.integration_ast import integration_ast
 from .internal_tool.find_wrapper_candidates import find_wrapper_candidates
+from .internal_tool.find_keyword import find_keyword
 from .internal_tool.find_exception_target import find_exception_target
 from .external_library_tool.find_external_files import find_external_files
 from .external_library_tool.find_external_candidates import find_external_candidates
@@ -47,6 +48,7 @@ def run_ast(code_project_dir):
     
     # 래퍼 후보 추출 & 내부 제외 대상 식별 
     find_wrapper_candidates()
+    find_keyword()
     s_n, p_n = get_external_name()
     m_same_name.update(s_n)
     p_same_name.update(p_n)

@@ -2,34 +2,6 @@ import os
 import json
 
 CANDIDATE_NODE = []
-# WRAPPER = []
-
-# # 프로퍼티 래퍼
-# def check_wrapper_name(data):
-#     def check_name(node):
-#         name = node.get("A_name")
-#         if name.startswith("_"):
-#             WRAPPER.append(name[1:])
-
-#     def repeat_match_member(item):
-#         if item is None: 
-#             return
-#         node = item.get("node", item)
-#         extensions = item.get("extension", [])
-#         children = item.get("children", [])
-
-#         check_name(node)
-#         for extension in extensions:
-#             repeat_match_member(extension)
-#         for child in children:
-#             repeat_match_member(child)
-
-#     if isinstance(data, list):
-#         for item in data:
-#             repeat_match_member(item)
-#     elif isinstance(data, dict):
-#         for _, node in data.items():
-#             check_name(node)
                 
 def find_candidate_node():
     input_path = "./AST/output/inheritance_node.json"

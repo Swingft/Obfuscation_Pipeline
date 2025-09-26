@@ -35,7 +35,14 @@ def get_storyboard_and_xc_wrapper_info():
                 name = name.strip()
                 if name:
                     STORYBOARD_AND_XC_WRAP_NAME.append(name)
-
+    
+    keyword_path = "./AST/output/keyword_list.txt"
+    if os.path.exists(keyword_path):
+        with open(keyword_path, "r", encoding="utf-8") as f:
+            for name in f:
+                name = name.strip()
+                if name:
+                    STORYBOARD_AND_XC_WRAP_NAME.append(name)
 
 def check_attribute(node, m_same_name, p_same_name):
     def check_member():

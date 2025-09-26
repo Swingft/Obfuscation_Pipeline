@@ -53,7 +53,7 @@ def find_external_framework(project_root):
     dir_paths = set()
     for dirpath, dirnames, _ in os.walk(project_root):
         for dirname in dirnames:
-            if dirname.lower() == "frameworks" or dirname.lower() == "framework":
+            if dirname.lower() == "frameworks" or dirname.lower() == "framework" or dirname.lower() == "pods":
                 path = os.path.join(dirpath, dirname)
                 dir_paths.add(path)
     
