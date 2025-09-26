@@ -24,7 +24,7 @@ def repeat_extension_enum(in_node):
 
 # "Decodable", "Encodable", "Codable", "NSCoding", "NSSecureCoding"의 멤버변수 제외
 def add_var_member(node):
-    members = node.get("G_members", [])
+    members = node.get("G_members", []) if node else []
     for member in members:
         if member.get("B_kind") == "variable":
             in_matched_list(member)

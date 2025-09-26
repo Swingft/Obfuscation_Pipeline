@@ -1,6 +1,6 @@
 import os, subprocess
 
-EXCLUDE_KEYWORDS = [".build", "Pods", "vendor", "thirdparty", "external", "frameworks", "framework", "packages"]
+EXCLUDE_KEYWORDS = [".build", "pods", "vendor", "thirdparty", "external", "frameworks", "framework", "packages"]
 
 def find_internal_files(directory):
     swift_files = set()
