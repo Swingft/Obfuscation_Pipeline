@@ -1,29 +1,27 @@
 #!/usr/bin/env python3
 """
-Service Mapping Script
-간단한 서비스용 매핑 스크립트
+Service Mapping Script - Legacy Version
+이전 방식의 매핑 스크립트 (성능 비교용)
 
 사용법:
-  python3 service_mapping.py --targets targets.json --output mapping_result.json --exclude project_identifiers.json
+  python3 service_mapping_legacy.py --targets targets.json --output mapping_result_legacy.json --exclude project_identifiers.json
 
 입력:
   - targets.json: 매핑할 타겟 리스트 (여러 포맷 지원)
   - project_identifiers.json: 프로젝트 전체 식별자 화이트리스트(id.py 출력) — 매핑 충돌 방지용
   - name_clusters/ 폴더: 사전 준비된 군집화 결과 (cluster_index_<kind>.json, safe_pool_<kind>.txt)
-  - 참고: 입력 JSON에서 `property` 키도 허용하며, 후보/인덱스 파일은 `variable`과 공유합니다.
 
 출력:
-  - mapping_result.json: 매핑 결과
+  - mapping_result_legacy.json: 매핑 결과
 """
 
 import argparse
 import json
 import random
 import sys
+import time
 from pathlib import Path
 from typing import List, Dict, Any, Set
-from functools import lru_cache
-from time import perf_counter
 
 # Shared identifier utilities
 from utils.identifier_utils import (
@@ -40,11 +38,10 @@ DEFAULT_JW_THRESHOLD = 0.88
 DEFAULT_AVOID_PREFIX = 3
 DEFAULT_KEEP_CASE = True
 DEFAULT_SEED = 42
-DEFAULT_FC_K = 600  # 원래 값으로 복원
+DEFAULT_FC_K = 600
 DEFAULT_FC_TOKEN_OVERLAP = 0
 DEFAULT_FC_LEN_DIFF = 2
 DEFAULT_FC_PREFIX = 3
-DEFAULT_CLUSTER_SIMILARITY_THRESHOLD = 0.2  # 더 낮은 임계치로 더 적극적인 조기 종료
 
 SUPPORTED_KINDS = [
     "class", "struct", "enum", "protocol", "extension", "typealias", "function",
@@ -136,7 +133,7 @@ def load_cluster_index(index_dir: Path, kind: str) -> List[Dict[str, Any]]:
 
 
 def cluster_distance_for_target(target: str, cl: dict) -> float:
-    """타겟과 클러스터 대표값 간의 거리 계산 (최적화된 버전)"""
+    """타겟과 클러스터 대표값 간의 거리 계산"""
     tnorm = normalize(target)
     rnorm = normalize(cl['rep']) if cl['rep'] else ''
     
@@ -190,26 +187,20 @@ def name_distance_for_target(target: str, name: str) -> float:
     return w_sim * d_sim + w_len * len_gap + w_pre * prefix_hit + w_jac * d_jac
 
 
-
-
-def select_far_clusters(index_dir: Path, kind: str, target: str, k: int, 
-                       token_overlap: int, min_len_diff: int, prefix_guard: int,
-                       similarity_threshold: float = DEFAULT_CLUSTER_SIMILARITY_THRESHOLD) -> List[Dict[str, Any]]:
-    """타겟과 먼 클러스터들 선택 (캐싱 최적화 버전)"""
+def select_far_clusters_legacy(index_dir: Path, kind: str, target: str, k: int, 
+                              token_overlap: int, min_len_diff: int, prefix_guard: int) -> List[Dict[str, Any]]:
+    """타겟과 먼 클러스터들 선택 (Legacy 방식 - 모든 클러스터 거리 계산 후 정렬)"""
     clusters = load_cluster_index(index_dir, kind)
     tnorm = normalize(target)
     tset = {t.lower() for t in tokens_no_stop(target)}
     
-    # 필터링 및 거리 계산을 동시에 수행
-    far_clusters = []
-    processed_count = 0
+    # 필터링
+    blocked = []
     for cl in clusters:
-        processed_count += 1
         rep = cl['rep'] or ''
         rnorm = normalize(rep) if rep else ''
         cset = {t.lower() for t in cl.get('tokens', []) if t and t.lower() not in STOP_TOKENS}
         
-        # 기본 필터링
         if len(tset & cset) > token_overlap:
             continue
         if rnorm and abs(len(tnorm) - len(rnorm)) < min_len_diff:
@@ -217,29 +208,18 @@ def select_far_clusters(index_dir: Path, kind: str, target: str, k: int,
         if prefix_guard > 0 and rnorm and tnorm[:prefix_guard] == rnorm[:prefix_guard]:
             continue
         
-        # 거리 계산 (캐싱됨)
-        distance = cluster_distance_for_target(target, cl)
-        
-        # 임계치 이하 유사도면 즉시 추가 (조기 종료 가능)
-        if distance >= similarity_threshold:
-            far_clusters.append((distance, cl))
-            
-            # 더 적극적인 조기 종료: k개만 찾으면 바로 종료
-            if len(far_clusters) >= k:
-                break
-        
-        # 조기 종료 제거 - 임계치만으로 충분
+        blocked.append(cl)
     
-    # 거리 순 정렬 (내림차순 - 클수록 멀음)
-    far_clusters.sort(key=lambda x: x[0], reverse=True)
+    # 거리 순 정렬 (Legacy 방식: 모든 클러스터 거리 계산 후 정렬)
+    scored = [(cluster_distance_for_target(target, cl), cl) for cl in blocked]
+    scored.sort(key=lambda x: x[0], reverse=True)
     
-    return [cl for _, cl in far_clusters[:k]]
+    return [cl for _, cl in scored[:k]]
 
 
-def create_mapping(targets: List[str], pool_dir: Path, index_dir: Path, kind: str,
-                  rnd: random.Random, forbidden: Set[str], used_repls: Set[str], 
-                  cluster_threshold: float = DEFAULT_CLUSTER_SIMILARITY_THRESHOLD) -> List[Dict[str, str]]:
-    """매핑 생성"""
+def create_mapping_legacy(targets: List[str], pool_dir: Path, index_dir: Path, kind: str,
+                         rnd: random.Random, forbidden: Set[str], used_repls: Set[str]) -> List[Dict[str, str]]:
+    """매핑 생성 (Legacy 방식)"""
     # 후보 풀 로드
     candidates = load_candidates(pool_dir, kind)
     targets_set = set(targets)
@@ -251,12 +231,11 @@ def create_mapping(targets: List[str], pool_dir: Path, index_dir: Path, kind: st
     avail = set(candidates)
     
     for target in targets:
-        # 원거리 클러스터 선택 (최적화된 버전)
-        far_clusters = select_far_clusters(
+        # 원거리 클러스터 선택 (Legacy 방식)
+        far_clusters = select_far_clusters_legacy(
             index_dir, kind, target,
             DEFAULT_FC_K, DEFAULT_FC_TOKEN_OVERLAP,
-            DEFAULT_FC_LEN_DIFF, DEFAULT_FC_PREFIX,
-            cluster_threshold
+            DEFAULT_FC_LEN_DIFF, DEFAULT_FC_PREFIX
         )
         
         # 클러스터 멤버만 후보로 제한
@@ -267,30 +246,13 @@ def create_mapping(targets: List[str], pool_dir: Path, index_dir: Path, kind: st
         
         per_target_pool = [n for n in avail if n in member_set and n not in forbidden and n not in used_repls]
         if not per_target_pool:
-            # 폴백: 임계치를 완화하여 더 많은 클러스터 선택
-            relaxed_threshold = cluster_threshold - 0.1  # 임계치 완화
-            far_clusters_relaxed = select_far_clusters(
-                index_dir, kind, target,
-                DEFAULT_FC_K, DEFAULT_FC_TOKEN_OVERLAP,
-                DEFAULT_FC_LEN_DIFF, DEFAULT_FC_PREFIX,
-                relaxed_threshold
+            # 폴백: 전체 후보 중 타겟과 가장 '먼' 후보들 상위 N만 추려서 사용
+            ranked = sorted(
+                ((name_distance_for_target(target, n), n) for n in avail if n not in forbidden and n not in used_repls),
+                key=lambda x: x[0], reverse=True,
             )
-            
-            # 완화된 클러스터 멤버 수집
-            member_set_relaxed = set()
-            for cl in far_clusters_relaxed:
-                for m in cl.get('members', []):
-                    member_set_relaxed.add(m)
-            
-            per_target_pool = [n for n in avail if n in member_set_relaxed and n not in forbidden and n not in used_repls]
-            
-            # 여전히 부족하면 개별 거리 계산 폴백
-            if not per_target_pool:
-                ranked = sorted(
-                    ((name_distance_for_target(target, n), n) for n in avail if n not in forbidden and n not in used_repls),
-                    key=lambda x: x[0], reverse=True,
-                )
-                per_target_pool = [n for _, n in ranked[:200]]
+            # 상위 200개만 풀에 남겨 랜덤성 유지(동점 분산)
+            per_target_pool = [n for _, n in ranked[:200]]
 
         # 케이스 필터링
         if DEFAULT_KEEP_CASE:
@@ -330,15 +292,13 @@ def create_mapping(targets: List[str], pool_dir: Path, index_dir: Path, kind: st
 
 
 def main():
-    parser = argparse.ArgumentParser(description="서비스용 매핑 스크립트")
+    parser = argparse.ArgumentParser(description="서비스용 매핑 스크립트 (Legacy 버전)")
     parser.add_argument("--targets", required=True, help="타겟 리스트 JSON 파일")
     parser.add_argument("--output", required=True, help="출력 JSON 파일")
     parser.add_argument("--exclude", help="제외(화이트리스트) JSON 파일 — 프로젝트 전체 식별자 목록(id.py 출력)" )
     parser.add_argument("--pool-dir", default="name_clusters", help="후보 풀 디렉터리 (기본: name_clusters)")
     parser.add_argument("--index-dir", default="name_clusters", help="클러스터 인덱스 디렉터리 (기본: name_clusters)")
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED, help="랜덤 시드")
-    parser.add_argument("--cluster-threshold", type=float, default=DEFAULT_CLUSTER_SIMILARITY_THRESHOLD, 
-                       help="클러스터 유사도 임계치 (기본: 0.3, 낮을수록 먼 거리)")
     
     args = parser.parse_args()
     
@@ -371,10 +331,8 @@ def main():
         sys.exit(1)
     
     kinds_list = ", ".join(sorted(targets_by_kind.keys()))
-    print(f"[service_mapping] KINDS={kinds_list} (property→variable alias active)")
+    print(f"[service_mapping_legacy] KINDS={kinds_list} (property→variable alias active)")
     
-    _t_program_start = perf_counter()
-
     # 제외(화이트리스트) 로드: 프로젝트 전체 식별자 집합
     forbidden: Set[str] = set()
     if args.exclude:
@@ -393,16 +351,19 @@ def main():
         for _name in _arr:
             forbidden.add(_name)
 
-    # 매핑 생성
+    # 매핑 생성 (Legacy 방식)
     rnd = random.Random(args.seed)
     result = {}
 
     used_repls: Set[str] = set()
     for kind, targets in targets_by_kind.items():
         try:
-            mapping = create_mapping(targets, pool_dir, index_dir, kind, rnd, forbidden, used_repls, args.cluster_threshold)
+            start_time = time.time()
+            mapping = create_mapping_legacy(targets, pool_dir, index_dir, kind, rnd, forbidden, used_repls)
+            end_time = time.time()
+            
             result[kind] = mapping
-            print(f"[{kind}] {len(mapping)}/{len(targets)} 매핑 생성 (누적 사용된 대체명: {len(used_repls)})")
+            print(f"[{kind}] {len(mapping)}/{len(targets)} 매핑 생성 (누적 사용된 대체명: {len(used_repls)}) - 소요시간: {end_time - start_time:.3f}초")
         except Exception as e:
             print(f"[{kind}] 매핑 실패: {e}", file=sys.stderr)
             result[kind] = []
@@ -410,10 +371,6 @@ def main():
     # 결과 저장
     output_path = Path(args.output)
     output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding='utf-8')
-
-    _t_program_end = perf_counter()
-    print(f"[time] program total: {_t_program_end - _t_program_start:.3f}s")
-
     print(f"매핑 결과 저장: {output_path}")
 
 

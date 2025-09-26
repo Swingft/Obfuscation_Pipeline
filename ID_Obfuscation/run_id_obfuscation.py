@@ -59,8 +59,10 @@ def id_obfuscation():
            "--targets", "./ID_Obfuscation/output/identifier.json", 
            "--exclude", "./ID_Obfuscation/output/all_identifier.json",
            "--output", "./mapping_result.json", 
-           "--pool-dir", "./ID_Obfuscation/mapping_tool/test_name_clusters", 
-           "--index-dir", "./ID_Obfuscation/mapping_tool/test_name_clusters"]
+           "--pool-dir", "./ID_Obfuscation/mapping_tool/name_clusters_opt", 
+           "--index-dir", "./ID_Obfuscation/mapping_tool/name_clusters_opt",
+           "--seed", "42",
+           "--cluster-threshold", "0.2"]
     run_command(cmd)
 
     mapping_info = read_file()
