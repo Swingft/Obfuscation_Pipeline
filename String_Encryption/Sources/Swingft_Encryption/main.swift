@@ -46,10 +46,17 @@ private func collectSwiftFiles(under root: URL) -> [URL] {
         at: root,
         includingPropertiesForKeys: [.isDirectoryKey],
         options: [.skipsPackageDescendants, .skipsHiddenFiles]
-    ) else { return [] }
+    ) as? FileManager.DirectoryEnumerator else { return [] }
     var result: [URL] = []
     for case let url as URL in en {
-        if url.pathExtension == "swift" { result.append(url) }
+        if isDirectory(url) {
+            let name = url.lastPathComponent.lowercased()
+            if name == "pods" {
+                en.skipDescendants()
+                continue
+            }
+        }
+      
     }
     return result
 }
