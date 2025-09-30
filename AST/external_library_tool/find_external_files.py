@@ -35,8 +35,23 @@ def find_external_library(project_root):
                 break
             for name in project_names:
                 if item.startswith(name + "-"):
-                    derived_path = os.path.join(derived_data, item, "SourcePackages", "checkouts")
+                    base_path = os.path.join(derived_data, item)
+
+                    # 1) derived data
+                    derived_path = os.path.join(base_path, "SourcePackages", "checkouts")
                     dir_paths.add(derived_path)
+
+                    # 2) IntentDefinitionGenerated
+                    intermediates_path = os.path.join(
+                        base_path,
+                        "Index.noindex",
+                        "Build",
+                        "Intermediates.noindex"
+                    )
+                    for root, _, files in os.walk(intermediates_path):
+                        if "DerivedSources/IntentDefinitionGenerated" in root:
+                            dir_paths.add(root)
+
                     is_find = True
                     break
    

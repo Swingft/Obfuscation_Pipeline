@@ -9,6 +9,18 @@ PARAMS = []
 def get_members(node):
     if node.get("B_kind") in ["struct", "class", "protocol", "enum"] and node.get("A_name") not in P_SAME_NAME:
         P_SAME_NAME.add(node.get("A_name"))
+    else:
+        if node.get("A_name") not in M_SAME_NAME:
+            M_SAME_NAME.add(node.get("A_name"))
+    
+    if node.get("B_kind") == "function":
+        params = node.get("I_parameters", [])
+        for param in params:
+            if param != "_":
+                if param not in M_SAME_NAME:
+                    M_SAME_NAME.add(param)
+                if {"A_name": param, "B_kind": "variable"} not in PARAMS:
+                    PARAMS.append({"A_name": param, "B_kind": "variable"})
 
     members = node.get("G_members", [])
     for member in members:

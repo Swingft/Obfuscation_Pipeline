@@ -26,8 +26,7 @@ def repeat_extension_enum(in_node):
 def add_var_member(node):
     members = node.get("G_members", []) if node else []
     for member in members:
-        if member.get("B_kind") == "variable":
-            in_matched_list(member)
+        in_matched_list(member)
 
 def match_member(node, sdk_node):
     members = node.get("G_members", [])

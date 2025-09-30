@@ -22,37 +22,37 @@ class Visitor: SyntaxVisitor {
     override func visit(_ node: ProtocolDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = ProtocolInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: ClassDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = ClassInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: StructDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = StructInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: ExtensionDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = ExtensionInfoExtractor.extractor(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: FunctionDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = FunctionInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: InitializerDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = InitInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
 
     override func visit(_ node: VariableDeclSyntax) -> SyntaxVisitorContinueKind {
@@ -62,18 +62,18 @@ class Visitor: SyntaxVisitor {
             store.append(info)
         }
         
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: EnumDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = EnumInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
     
     override func visit(_ node: ActorDeclSyntax) -> SyntaxVisitorContinueKind {
         let info = ActorInfoExtractor.extract(from: node, locationHandler: location)
         store.append(info)
-        return .skipChildren
+        return .visitChildren
     }
 }

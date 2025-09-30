@@ -3,13 +3,12 @@ import time
 
 from remove_files import remove_files
 from AST.run_ast import run_ast
-from ID_Obfuscation.run_id_obfuscation import id_obfuscation
-from ID_Obfuscation.id_dump import make_dump_file_id
+from Mapping.run_mapping import mapping
+from ID_Obf.id_dump import make_dump_file_id
 from merge_list import merge_llm_and_rule
 from Opaquepredicate.run_opaque import run_opaque
 from DeadCode.deadcode import deadcode
 from remove_debug_symbol import remove_debug_symbol
-from ID_Obfuscation.id_dump import make_dump_file_id
 
 def run_command(cmd):
     result = subprocess.run(cmd, capture_output=True, text=True)
@@ -32,12 +31,33 @@ def obf_pipeline(original_project_dir, obf_project_dir):
     # Rule & LLM 결과 병합
     merge_llm_and_rule()
 
+    # 식별자 매핑
+    mapping()
+    
+    mapping_end = time.time()
+    print("mapping: ", mapping_end - ast_end)
+
     # 식별자 난독화
-    id_obfuscation()
+    swift_list_dir = "./swift_file_list.txt"
+    swift_list_dir = os.path.join(original_dir, swift_list_dir) 
+    mapping_result_dir = "./mapping_result_s.json"
+    mapping_result_dir = os.path.join(original_dir, mapping_result_dir)    
+
+    target_project_dir = "./ID_Obf"
+    target_name = "IDOBF"
+    os.chdir(target_project_dir)
+    run_command(["swift", "package", "clean"])
+    shutil.rmtree(".build", ignore_errors=True)
+
+    run_command(["swift", "build"])
+    run_command(["swift", "run", target_name, mapping_result_dir, swift_list_dir])
+
+    # 식별자 난독화 덤프파일 생성
+    os.chdir(original_dir)
     make_dump_file_id(original_project_dir, obf_project_dir)
 
     id_end = time.time()
-    print("id-obf: ", id_end - ast_end)
+    print("id-obf: ", id_end - mapping_end)
 
     # 제어흐름 평탄화
     cff_path = os.path.join(original_dir, "CFF")

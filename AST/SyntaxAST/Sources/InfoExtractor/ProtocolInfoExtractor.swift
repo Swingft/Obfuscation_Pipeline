@@ -15,7 +15,7 @@ struct ProtocolInfoExtractor {
         let accessLevels = ["private", "fileprivate", "internal", "public", "open"]
         let accessLevel = node.modifiers.compactMap { modifier in
             let name = modifier.name.text
-            return accessLevels.contains(name) ? name : nil
+            return name
         }.first ?? "internal"
         
         let attributes = (node.attributes ?? []).compactMap {

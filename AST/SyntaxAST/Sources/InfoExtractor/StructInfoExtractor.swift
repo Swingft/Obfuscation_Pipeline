@@ -15,7 +15,7 @@ struct StructInfoExtractor {
         let accessLevels = ["private", "fileprivate", "internal", "public", "open"]
         let accessLevel = node.modifiers.compactMap { modifier -> String? in
             let name = modifier.name.text
-            return accessLevels.contains(name) ? name : nil
+            return name
         }.first ?? "internal"
         
         let modifiers = node.modifiers ?? []
