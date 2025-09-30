@@ -56,6 +56,9 @@ private func collectSwiftFiles(under root: URL) -> [URL] {
                 continue
             }
         }
+        if url.pathExtension == "swift" {
+               result.append(url)
+           }
       
     }
     return result

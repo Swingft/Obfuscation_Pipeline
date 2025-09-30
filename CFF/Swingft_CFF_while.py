@@ -58,7 +58,7 @@ def add_self_if_needed(line: str) -> str:
         name = m.group(1)
         if name in KEYWORDS_OR_CTRL:
             return m.group(0)  
-        return f"self.{name}("
+        return f"{name}("
 
     return CALL_CANDIDATE_RE.sub(repl, line)
 
@@ -105,7 +105,7 @@ def build_flattened_for_pure_bool(loop_text: str, cond: str, idx: int) -> str:
     lines.append(f"{indent}        {state_var} = 0")
     lines.append(f"{indent}        continue {label}")
     lines.append(f"{indent}    default:")
-    lines.append(f"{indent}        break {label}")
+    lines.append(f'{indent}        preconditionFailure("unreachable cff state")')
     lines.append(f"{indent}    }}")
     lines.append(f"{indent}}}")
     return "\n".join(lines)
