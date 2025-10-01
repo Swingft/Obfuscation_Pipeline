@@ -20,26 +20,15 @@ class Extractor {
     
     init(sourcePath: String) throws {
         self.sourcePath = sourcePath
-        
         let url = URL(fileURLWithPath: sourcePath)
         self.sourceText = try String(contentsOf: url)
         self.syntaxTree = try Parser.parse(source: sourceText)
-        
         self.store = ResultStore()
         self.location = LocationHandler(file: sourcePath, source: sourceText)
     }
     
-    func performExtraction() -> [TypealiasInfo] {
-        let typealiasInfo = TypealiasVisitor()
-        typealiasInfo.walk(syntaxTree)
-        
-        let importInfo = ImportExtractor()
-        importInfo.walk(syntaxTree)
-        importInfo.writeImports()
-    
+    func performExtraction() {
         let visitor = Visitor(store: store, location: location)
         visitor.walk(syntaxTree)
-        
-        return typealiasInfo.result
     }
 }

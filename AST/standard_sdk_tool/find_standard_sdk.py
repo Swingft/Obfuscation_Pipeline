@@ -14,9 +14,8 @@ def read_import_list():
     import_list = set()
     path = "./AST/output/import_list.txt"
     with open(path, "r", encoding="utf-8") as f:
-        for line in f:
-            if line.strip():
-                import_list.add(line.strip())
+        data = json.load(f)
+        import_list.update(data)
     import_list.add("Swift")
     import_list.add("Foundation")
 

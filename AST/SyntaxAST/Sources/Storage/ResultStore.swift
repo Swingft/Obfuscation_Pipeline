@@ -9,12 +9,20 @@
 
 class ResultStore {
     private var _results: [IdentifierInfo] = []
+    private var _typealiasResults: [TypealiasInfo] = []
+    private var _importResult: Set<String> = []
     
-    func append(_ item: IdentifierInfo) {
+    func nodeAppend(_ item: IdentifierInfo) {
         _results.append(item)
     }
+    func typealiasAppend(_ item: TypealiasInfo) {
+        _typealiasResults.append(item)
+    }
+    func importAppend(_ item: String) {
+        _importResult.insert(item)
+    }
     
-    func all() -> [IdentifierInfo] {
-        return _results
+    func all() -> ([IdentifierInfo], [TypealiasInfo], Set<String>) {
+        return (_results, _typealiasResults, _importResult)
     }
 }

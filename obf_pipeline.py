@@ -45,11 +45,21 @@ def obf_pipeline(original_project_dir, obf_project_dir):
 
     target_project_dir = "./ID_Obf"
     target_name = "IDOBF"
-    os.chdir(target_project_dir)
-    run_command(["swift", "package", "clean"])
-    shutil.rmtree(".build", ignore_errors=True)
 
-    run_command(["swift", "build"])
+    os.chdir(target_project_dir)
+    build_marker_file = ".build/build_path.txt"
+    previous_build_path = ""
+    if os.path.exists(build_marker_file):
+        with open(build_marker_file, "r") as f:
+            previous_build_path = f.read().strip()
+    
+    current_build_path = os.path.abspath(".build")
+    if previous_build_path != current_build_path or previous_build_path == "":
+        run_command(["swift", "package", "clean"])
+        shutil.rmtree(".build", ignore_errors=True)
+        run_command(["swift", "build"])
+        with open(build_marker_file, "w") as f:
+            f.write(current_build_path)
     run_command(["swift", "run", target_name, mapping_result_dir, swift_list_dir])
 
     # 식별자 난독화 덤프파일 생성
@@ -62,9 +72,19 @@ def obf_pipeline(original_project_dir, obf_project_dir):
     # 제어흐름 평탄화
     cff_path = os.path.join(original_dir, "CFF")
     os.chdir(cff_path)
-    run_command(["swift", "package", "clean"])
-    shutil.rmtree(".build", ignore_errors=True)
-    run_command(["swift", "build"])
+    build_marker_file = ".build/build_path.txt"
+    previous_build_path = ""
+    if os.path.exists(build_marker_file):
+        with open(build_marker_file, "r") as f:
+            previous_build_path = f.read().strip()
+    
+    current_build_path = os.path.abspath(".build")
+    if previous_build_path != current_build_path or previous_build_path == "":
+        run_command(["swift", "package", "clean"])
+        shutil.rmtree(".build", ignore_errors=True)
+        run_command(["swift", "build"])
+        with open(build_marker_file, "w") as f:
+            f.write(current_build_path)
     cmd = ["swift", "run", "Swingft_CFF", obf_project_dir]
     run_command(cmd)
     os.chdir(original_dir)

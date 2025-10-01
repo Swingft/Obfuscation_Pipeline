@@ -78,10 +78,20 @@ def newest_matching(root: Path, pattern: re.Pattern) -> Optional[Path]:
     return newest_p
 
 def main():
-    subprocess.run(["swift", "package", "clean"])
-    shutil.rmtree(".build", ignore_errors=True)
-    subprocess.run(["swift", "build"])
+    build_marker_file = ".build/build_path.txt"
+    previous_build_path = ""
+    if os.path.exists(build_marker_file):
+        with open(build_marker_file, "r") as f:
+            previous_build_path = f.read().strip()
     
+    current_build_path = os.path.abspath(".build")
+    if previous_build_path != current_build_path or previous_build_path == "":
+        subprocess.run(["swift", "package", "clean"])
+        shutil.rmtree(".build", ignore_errors=True)
+        subprocess.run(["swift", "build"])
+        with open(build_marker_file, "w") as f:
+            f.write(current_build_path)
+
     ap = argparse.ArgumentParser(description="Run Swingft pipeline, gated by Encryption_strings")
     ap.add_argument("root_path", help="Project root path")
     ap.add_argument("config_path", help="Swingft_config.json path")

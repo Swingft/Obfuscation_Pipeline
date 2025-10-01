@@ -8,6 +8,5 @@ let externalSourceListPath = CommandLine.arguments[2]
 
 let internalH = InternalHandler(sourceListPath: sourceListPath)
 try internalH.readAndProcess()
-
 let externalH = ExternalHandler(sourceListPath: externalSourceListPath)
 try externalH.readAndProcess()
