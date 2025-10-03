@@ -13,8 +13,9 @@ def insert_deadcode(swift_file_path):
         in_string = False 
         in_func = False
         in_comment = False
+        in_protocol = False
         level = 0
-        count = {"top": 0, "func": 0}
+        count = {"top": 0, "func": 0, "protocol": 0}
         for line in source_code.splitlines():
 
             for i, char in enumerate(line):
@@ -43,13 +44,21 @@ def insert_deadcode(swift_file_path):
                 if "extension " in line and level == 0:
                     break
 
+                if "protocol " in line:
+                    in_protocol = True
+                    count["protocol"] += line.count("{") - line.count("}")
+                if in_protocol:
+                    count["protocol"] += line.count("{") - line.count("}")
+                    if count["protocol"] == 0:
+                        in_protocol = False
+
                 level += 1
                 count["top"] += line.count("{") - line.count("}")
 
-            if not in_comment and not in_string and level == 1:
+            if not in_protocol and not in_comment and not in_string and level == 1:
                 if "func " in line:
                     prev_line = source_code.splitlines()[idx - 1].strip()
-                    if not prev_line.startswith("@") or not prev_line.startswith("//") or not prev_line.startswith("/*") or not prev_line.endswith("*/"):
+                    if not prev_line.startswith("@") and not prev_line.startswith("//") and not prev_line.startswith("/*") and not prev_line.endswith("*/"):
                         func_line.append(idx - 1)
 
                 if "func " in line and "{" in line and "static " not in line and "->" not in line:
@@ -64,6 +73,12 @@ def insert_deadcode(swift_file_path):
                 
                 if count["func"] == 0:
                     in_func = False
+                
+                if in_protocol:
+                    count["protocol"] += line.count("{") - line.count("}")
+                
+                if count["protocol"] == 0:
+                    in_protocol = False
 
                 count["top"] += line.count("{") - line.count("}")
 
@@ -103,11 +118,11 @@ def insert_deadcode(swift_file_path):
                     new_source_code += line + "\n"
                     indented_code = "\n".join(" " * line_indent + l for l in global_var.splitlines())
                     new_source_code += indented_code + "\n"
-                elif idx == func_idx:                        # 함수 선언부
+                if idx == func_idx:                        # 함수 선언부
                     new_source_code += line + "\n"
                     indented_func = "\n".join(" " * line_indent + l for l in decl.splitlines())
                     new_source_code += indented_func + "\n"
-                elif idx == call_idx:                        # 호출부
+                if idx == call_idx:                        # 호출부
                     call_code = call
                     if global_var != "-1":
                         call_code = global_call
