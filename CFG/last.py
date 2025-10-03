@@ -781,38 +781,47 @@ def _rename_and_add_wrapper(src: str, *, name: str, parent_type: Optional[str], 
 
     # --- Collect declaration-leading attribute *tokens* ---
     def _attr_tokens_from_line(s: str) -> List[str]:
-        # Only tokens starting with '@' at line-start or preceded by whitespace; do not pick up parameter attributes
-        return re.findall(r"(?:(?<=^)@|(?<=\s)@)[\w:]+", s)
+        # Capture full attribute segments like '@IBAction', '@IBSegueAction', '@MainActor', and '@objc' with optional parentheses: '@objc(name)'
+        return re.findall(r"(?:(?<=^)@|(?<=\s)@)[\w:]+(?:\s*\([^)]*\))?", s)
+
+    def _is_spacer_line(s: str) -> bool:
+        st = s.strip()
+        # empty, doc-comments and conditional-compilation lines are considered spacers
+        return (not st) or st.startswith('///') or st.startswith('/**') or st.startswith('*') or st.startswith('*/') or st.startswith('#if') or st.startswith('#endif') or st.startswith('#else')
 
     # tokens on the same line as `func`
     inline_tokens = _attr_tokens_from_line(lines[func_idx])
 
-    # tokens on the few lines immediately above the function decl (pure-attribute lines)
+    # tokens on the lines immediately above the function decl (pure-attribute lines)
+    # We allow up to 12 lines lookback and skip over doc-comments / conditional compilation lines.
     above_tokens: List[str] = []
-    above_attr_line_idx: List[int] = []
-    for j in range(func_idx - 1, max(-1, func_idx - 6), -1):
+    above_attr_lines: Dict[int, List[str]] = {}
+    for j in range(func_idx - 1, max(-1, func_idx - 13), -1):
         raw = lines[j]
         stripped = raw.strip()
-        if not stripped:
-            # empty line: keep scanning upward
+        if _is_spacer_line(raw):
+            # spacer lines do not stop the scan; continue scanning upward
             continue
         if stripped.startswith("@"):
-            # Treat as an attribute-only line **only** if the whole line is just an attribute token
-            # (optionally with parentheses), not a declaration like `@Published var ...`.
+            # Attribute-only line (no declarations like `@Published var`)
             if re.match(r"^\s*@[\w:]+(?:\s*\([^)]*\))?\s*$", stripped):
                 toks = _attr_tokens_from_line(raw)
                 if toks:
                     above_tokens.extend(toks)
-                    above_attr_line_idx.append(j)
+                    above_attr_lines[j] = toks
                     continue
-            # Otherwise it's something like `@Published var ...` → stop; do not consume it
+            # Otherwise it's an attribute preceding a different declaration → stop
             break
-        # hit a non-attribute line → stop
+        # non-attribute, non-spacer content → stop
         break
 
     # We only preserve declaration-leading attributes that should stay on the wrapper
     def _is_preserved(tok: str) -> bool:
-        return tok in ("@IBAction", "@IBSegueAction") or tok.endswith("Actor")
+        # Preserve UI/runtime/actor attributes and Objective-C exposure
+        # - Keep @objc and @objc(...) so selectors keep working after wrapping
+        # - Keep IBAction/IBSegueAction and any global-actor (…Actor)
+        base = tok.strip()
+        return base.startswith("@objc") or base in ("@IBAction", "@IBSegueAction") or base.endswith("Actor")
 
     preserved = [t for t in (above_tokens + inline_tokens) if _is_preserved(t)]
 
@@ -831,15 +840,18 @@ def _rename_and_add_wrapper(src: str, *, name: str, parent_type: Optional[str], 
     if nsubs == 0:
         return src, False
 
-    # Reconstruct lines: replace function line; for attribute-only lines above, **preserve the line break**
-    # by replacing the whole line with just a newline so previous/next tokens never concatenate.
+    # Reconstruct lines: replace function line; for attribute-only lines above, remove only those containing preserved tokens
     new_lines: List[str] = []
-    above_attr_set = set(above_attr_line_idx)
+    to_delete_idx: Set[int] = set()
+    # Only delete attribute-only lines that contain preserved tokens; keep others (e.g., @available)
+    for idx, toks in above_attr_lines.items():
+        if any(t in preserved for t in toks):
+            to_delete_idx.add(idx)
+
     for idx, l in enumerate(lines):
         if idx == func_idx:
             new_lines.append(new_func_line_renamed)
-        elif idx in above_attr_set:
-            # keep a single newline (or the original line ending if present)
+        elif idx in to_delete_idx:
             new_lines.append("\n" if l.endswith("\n") else l[:0])
         else:
             new_lines.append(l)
@@ -906,7 +918,20 @@ def _rename_and_add_wrapper(src: str, *, name: str, parent_type: Optional[str], 
     else:
         body = f"{{\n  try! OBFF{file_id}.callVoid{call_prefix}\n}}"
 
-    attrs_prefix = "".join(a + "\n" for a in preserved)
+    # Reconstruct preserved attribute *text* from the original source lines when possible
+    preserved_line_texts: List[str] = []
+    # If there were attribute-only lines above the func that we decided to delete, take their exact text
+    for idx in sorted(to_delete_idx):
+        # keep the original line as-is (it already contains its newline)
+        preserved_line_texts.append(lines[idx])
+    # If some preserved tokens were inline on the func line (e.g., '@objc' on the same line),
+    # synthesize a single-line attribute string from those tokens and prefer it before the above lines.
+    inline_preserved = [t for t in inline_tokens if _is_preserved(t)]
+    if inline_preserved:
+        synthesized = "".join(t + "\n" for t in inline_preserved)
+        # put synthesized inline attrs before the collected above-lines so order resembles original intent
+        preserved_line_texts.insert(0, synthesized)
+    attrs_prefix = "".join(preserved_line_texts)
     wrapper = f"\n\n{attrs_prefix}{wrapper_hdr}\n{body}\n"
     return new_src[:insert_at] + wrapper + new_src[insert_at:], True
 
