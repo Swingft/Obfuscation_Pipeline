@@ -49,7 +49,7 @@ def find_external_library(project_root):
                         "Intermediates.noindex"
                     )
                     for root, _, files in os.walk(intermediates_path):
-                        if "DerivedSources/IntentDefinitionGenerated" in root:
+                        if "DerivedSources/IntentDefinitionGenerated" in root or "DerivedSources/CoreDataGenerated" in root:
                             dir_paths.add(root)
 
                     is_find = True

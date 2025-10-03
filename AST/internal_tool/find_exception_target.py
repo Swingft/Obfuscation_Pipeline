@@ -44,11 +44,11 @@ def get_storyboard_and_xc_wrapper_info():
                 if name:
                     STORYBOARD_AND_XC_WRAP_NAME.append(name)
 
-def check_attribute(node, m_same_name, p_same_name):
+def check_attribute(node, p_same_name):
     def check_member():
         members = node.get("G_members", [])
         for member in members:
-            check_attribute(member, m_same_name, p_same_name)
+            check_attribute(member, p_same_name)
 
     attributes = node.get("D_attributes", [])
     adopted = node.get("E_adoptedClassProtocols", [])
@@ -102,38 +102,36 @@ def check_attribute(node, m_same_name, p_same_name):
 
     if name.startswith("`") and name.endswith("`"):
         name = name[1:-1]
-    if node.get("B_kind") in ["variable", "case", "function"] and name in m_same_name:
-        in_matched_list(node)
-    if node.get("B_kind") in ["struct", "class", "enum", "protocol"] and name in p_same_name:
+    if name in p_same_name:
         in_matched_list(node)
 
     check_member()
 
 # 자식 노드가 자식 노드를 가지는 경우
-def repeat_match_member(data, m_same_name, p_same_name):
+def repeat_match_member(data, p_same_name):
     if data is None: 
         return
     node = data.get("node", data)
     extensions = data.get("extension", [])
     children = data.get("children", [])
 
-    check_attribute(node, m_same_name, p_same_name)
+    check_attribute(node, p_same_name)
     for extension in extensions:
-        repeat_match_member(extension, m_same_name, p_same_name)
+        repeat_match_member(extension, p_same_name)
     for child in children:
-        repeat_match_member(child, m_same_name, p_same_name)
+        repeat_match_member(child, p_same_name)
 
 # node 처리
-def find_node(data, m_same_name, p_same_name):
+def find_node(data, p_same_name):
     if isinstance(data, list):
         for item in data:
-            repeat_match_member(item, m_same_name, p_same_name)
+            repeat_match_member(item, p_same_name)
 
     elif isinstance(data, dict):
         for _, node in data.items():
-            check_attribute(node, m_same_name, p_same_name)
+            check_attribute(node, p_same_name)
 
-def find_exception_target(m_same_name, p_same_name):
+def find_exception_target(p_same_name):
     input_file_1 = "./AST/output/inheritance_node.json"
     input_file_2 = "./AST/output/no_inheritance_node.json"
     output_file = "./AST/output/internal_exception_list.json"
@@ -143,18 +141,16 @@ def find_exception_target(m_same_name, p_same_name):
     if os.path.exists(input_file_1):
         with open(input_file_1, "r", encoding="utf-8") as f:
             nodes = json.load(f)
-        find_node(nodes, m_same_name, p_same_name)
+        find_node(nodes, p_same_name)
     if os.path.exists(input_file_2):
         with open(input_file_2, "r", encoding="utf-8") as f:
             nodes = json.load(f)
-        find_node(nodes, m_same_name, p_same_name)
+        find_node(nodes, p_same_name)
     
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(MATCHED_LIST, f, indent=2, ensure_ascii=False)
     
     temp = "./AST/output/external_name.txt"
     with open(temp, "w", encoding="utf-8") as f:
-        for name in m_same_name:
-            f.write(f"{name}\n")
         for name in p_same_name:
             f.write(f"{name}\n")

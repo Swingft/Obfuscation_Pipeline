@@ -38,21 +38,18 @@ def run_ast(code_project_dir):
     find_external_candidates()
     match_candidates_external()
 
-    m_same_name = set()
     p_same_name = set()
     # 표준 SDK 정보 추출 & 표준 SDK 요소 식별
     path = "./AST/output/import_list.txt"
     if os.path.exists(path):
-        m_same_name, p_same_name = find_standard_sdk()
+        p_same_name = find_standard_sdk()
         match_candidates_sdk()
     
     # 래퍼 후보 추출 & 내부 제외 대상 식별 
     find_wrapper_candidates()
     find_keyword()
-    s_n, p_n = get_external_name()
-    m_same_name.update(s_n)
-    p_same_name.update(p_n)
-    find_exception_target(m_same_name, p_same_name)
+    p_same_name.update(get_external_name())
+    find_exception_target(p_same_name)
 
     # 제외 대상 리스트 병합
     merge_exception_list()

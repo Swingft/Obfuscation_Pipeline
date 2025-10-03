@@ -2,7 +2,6 @@ import subprocess
 import os
 import json
 
-M_SAME_NAME = set()
 P_SAME_NAME = set()
 
 def run_command(cmd):
@@ -75,8 +74,7 @@ def get_members(children):
                              "Enum", "EnumElement", "TypeAlias", "AssociatedType"}:
             continue
 
-        if decl_kind in ["Func", "Var", "EnumElement"]:
-            M_SAME_NAME.add(name)
+        P_SAME_NAME.add(name)
 
         member_info = {
             "kind": decl_kind,
@@ -90,7 +88,7 @@ def get_members(children):
             for param in param_str.split(":"):
                 param = param.strip()
                 if param and param != "_":
-                    M_SAME_NAME.add(param)
+                    P_SAME_NAME.add(param)
 
         members[name] = member_info
     return members
@@ -177,4 +175,4 @@ def find_standard_sdk():
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(sdk_info, f, indent=2, ensure_ascii=False)
     
-    return M_SAME_NAME, P_SAME_NAME
+    return P_SAME_NAME

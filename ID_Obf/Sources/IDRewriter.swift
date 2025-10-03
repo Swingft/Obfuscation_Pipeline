@@ -384,4 +384,15 @@ class IDRewriter: SyntaxRewriter {
         }
         return super.visit(node)
     }
+    override func visit(_ node: ClosureCaptureSyntax) -> ClosureCaptureSyntax {
+        let oldName = node.name
+        if let repl = mapping[oldName.text] {
+            let newName = TokenSyntax.identifier(repl)
+                .with(\.leadingTrivia, oldName.leadingTrivia)
+                .with(\.trailingTrivia, oldName.trailingTrivia)
+            let newNode = node.with(\.name, newName)
+            return super.visit(newNode)
+        }
+        return super.visit(node)
+    }
 }
