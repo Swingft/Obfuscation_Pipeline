@@ -3,7 +3,7 @@
     "project":{
         "input":"",
         "output":"",
-        "build_target":"Powerup"
+        "build_target":"StealPlateSwift"
     },
   "options": {
     "Obfuscation_classNames": true,

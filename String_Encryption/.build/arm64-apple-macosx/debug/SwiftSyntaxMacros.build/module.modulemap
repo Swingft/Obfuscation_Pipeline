@@ -1,4 +1,0 @@
-module SwiftSyntaxMacros {
-    header "/Users/seunghye/no_icloud/Obf-pipeline/String_Encryption/.build/arm64-apple-macosx/debug/SwiftSyntaxMacros.build/SwiftSyntaxMacros-Swift.h"
-    requires objc
-}
