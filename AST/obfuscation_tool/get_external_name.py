@@ -3,23 +3,20 @@ import json
 
 P_SAME_NAME = set()
 
-# function, variable 정보 수집
 def get_members(node):
     P_SAME_NAME.add(node.get("A_name"))
 
-    if node.get("B_kind") == "function":
-        params = node.get("I_parameters", [])
-        for param in params:
-            if param != "_":
-                P_SAME_NAME.add(param)
+    params = node.get("I_parameters", [])
+    for param in params:
+        if param != "_":
+            P_SAME_NAME.add(param)
 
     members = node.get("G_members", [])
     for member in members:
-        if member.get("B_kind") == "function":
-            params = member.get("I_parameters", [])
-            for param in params:
-                if param != "_":
-                    P_SAME_NAME.add(param)
+        params = member.get("I_parameters", [])
+        for param in params:
+            if param != "_":
+                P_SAME_NAME.add(param)
         P_SAME_NAME.add(member.get("A_name"))
         
         if member.get("G_members"):

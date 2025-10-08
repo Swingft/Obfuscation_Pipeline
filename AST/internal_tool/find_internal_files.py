@@ -39,6 +39,7 @@ def find_internal_files(directory):
     with open(output_path, "w", encoding="utf-8") as f:
         for xc in xc_files:
             f.write(f"{xc}\n")
+            f.write(f"{xc.lower()}\n")
 
     output_path = "./AST/output/storyboard_list.txt"
     with open(output_path, "w", encoding="utf-8") as f:

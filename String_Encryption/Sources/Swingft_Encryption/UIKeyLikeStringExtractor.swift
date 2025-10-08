@@ -20,7 +20,7 @@ final class UIKeyLikeStringExtractor: SyntaxVisitor {
     ]
 
     private let uiWrapperTypes: Set<String> = [
-        "Text", "Image", "DisplayRepresentation", "TypeDisplayRepresentation", "LocalizedStringResource"
+        "Text", "Image", "DisplayRepresentation", "TypeDisplayRepresentation", "LocalizedStringResource", "URL"
     ]
 
     init(viewMode: SyntaxTreeViewMode = .sourceAccurate, filePath: String) {

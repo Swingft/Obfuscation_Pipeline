@@ -57,19 +57,31 @@ struct EnumInfoExtractor {
                     let name = modifier.name.text
                     return accessLevels.contains(name) ? nil : name
                 }
+                
                 var attributes = (caseDecl.attributes ?? []).compactMap {
                     $0.as(AttributeSyntax.self)?.attributeName.description.trimmingCharacters(in: .whitespacesAndNewlines)
                 }
                 attributes.append(contentsOf: otherMods)
-                
+                var parameters: [String] = []
+                var parameterType: [String] = []
                 for element in caseDecl.elements {
-                    let name = element.identifier.text
+                    let name = element.name.text
+                    if let parameterClause = element.parameterClause {
+                        for param in parameterClause.parameters {
+                            let paramName = param.firstName?.text ?? "_"
+                            let paramType = param.type.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                            parameters.append(paramName)
+                            parameterType.append(paramType)
+                        }
+                    }
                     let info = IdentifierInfo(
                         A_name: name,
                         B_kind: "case",
                         C_accessLevel: accessLevel,
                         D_attributes: attributes,
-                        F_location: locationHandler.findLocation(of: element)
+                        F_location: locationHandler.findLocation(of: element),
+                        I_parameters: parameters,
+                        I_parameterType: parameterType
                     )
                     memberList.append(info)
                 }

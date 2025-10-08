@@ -134,7 +134,7 @@ def find_node(data, p_same_name):
 def find_exception_target(p_same_name):
     input_file_1 = "./AST/output/inheritance_node.json"
     input_file_2 = "./AST/output/no_inheritance_node.json"
-    output_file = "./AST/output/internal_exception_list.json"
+    output_file_1 = "./AST/output/internal_exception_list.json"
 
     get_storyboard_and_xc_wrapper_info()
     
@@ -147,7 +147,7 @@ def find_exception_target(p_same_name):
             nodes = json.load(f)
         find_node(nodes, p_same_name)
     
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(output_file_1, "w", encoding="utf-8") as f:
         json.dump(MATCHED_LIST, f, indent=2, ensure_ascii=False)
     
     temp = "./AST/output/external_name.txt"

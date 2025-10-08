@@ -369,7 +369,7 @@ def encrypt_and_insert(source_root: str, included_json_path: str,
         if not name:
             print(f"[Warning] build_target '{desired_bt}' not found in targets map. Skip encryption and exit.")
             return
-    in_strings, _ = load_included_from_json(included_json_path)
+    in_strings, in_lines = load_included_from_json(included_json_path)
     STRING_RE = re.compile(r'("""(?:\\.|"(?!""")|[^"])*?"""|"(?:\\.|[^"\\])*")', re.DOTALL)
 
     target_root = None
@@ -412,6 +412,9 @@ def encrypt_and_insert(source_root: str, included_json_path: str,
 
             abs_path = os.path.realpath(file_path)
             in_contents = in_strings.get(abs_path, set())
+     
+            allowed_lines = in_lines.get(abs_path, set())
+            allowed_window = allowed_lines | {ln + 1 for ln in allowed_lines}
 
             def replace_string(m):
                 raw = m.group(0)
@@ -419,6 +422,11 @@ def encrypt_and_insert(source_root: str, included_json_path: str,
                 if 'SwingftEncryption.resolve("' in around:
                     return raw
                 if raw not in in_contents:
+                    return raw
+                if not allowed_window:
+                    return raw
+                current_line = line_no_of(content, m.start())
+                if current_line not in allowed_window:
                     return raw
                 inner = raw[3:-3] if raw.startswith('"""') else raw[1:-1]
                 inner_runtime = swift_unescape(inner)

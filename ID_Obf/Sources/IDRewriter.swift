@@ -15,6 +15,13 @@ class IDRewriter: SyntaxRewriter {
         super.init()
     }
     
+    override func visit(_ node: CodeBlockItemListSyntax) -> CodeBlockItemListSyntax{
+        return super.visit(node)
+    }
+    override func visit(_ node: CodeBlockItemSyntax) -> CodeBlockItemSyntax{
+        return super.visit(node)
+    }
+    
     override func visit(_ node: ProtocolDeclSyntax) -> DeclSyntax {
         let oldName = node.name
         if let repl = mapping[oldName.text] {
@@ -99,6 +106,7 @@ class IDRewriter: SyntaxRewriter {
         return super.visit(node)
     }
     
+    // enum case
     override func visit(_ node: EnumCaseElementSyntax) -> EnumCaseElementSyntax {
         let oldName = node.name
         if let repl = mapping[oldName.text] {
@@ -111,6 +119,32 @@ class IDRewriter: SyntaxRewriter {
             return super.visit(newNode)
         }
         return super.visit(node)
+    }
+    override func visit(_ node: EnumCaseParameterClauseSyntax) -> EnumCaseParameterClauseSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: EnumCaseParameterListSyntax) -> EnumCaseParameterListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: EnumCaseParameterSyntax) -> EnumCaseParameterSyntax {
+        var newNode = node
+        
+        if let oldFirstNameToken = node.firstName,
+           let repl = mapping[oldFirstNameToken.text] {
+                
+            let newFirstName = oldFirstNameToken.with(\.tokenKind, .identifier(repl))
+            newNode = newNode.with(\.firstName, newFirstName)
+        }
+
+        if let oldSecondName = node.secondName,
+           let repl = mapping[oldSecondName.text] {
+            let newSecondName = TokenSyntax.identifier(repl)
+                .with(\.leadingTrivia, oldSecondName.leadingTrivia)
+                .with(\.trailingTrivia, oldSecondName.trailingTrivia)
+            newNode = newNode.with(\.secondName, newSecondName)
+        }
+        
+        return super.visit(newNode)
     }
     
     
@@ -198,6 +232,9 @@ class IDRewriter: SyntaxRewriter {
         
         return super.visit(node.with(\.bindings, newBindings))
     }
+    override func visit(_ node: AttributeListSyntax) -> AttributeListSyntax {
+        return super.visit(node)
+    }
     
     // 상수, 변수
     override func visit(_ node: IdentifierPatternSyntax) -> PatternSyntax {
@@ -211,6 +248,24 @@ class IDRewriter: SyntaxRewriter {
             let newNode = node.with(\.identifier, newName)
             return super.visit(newNode)
         }
+        return super.visit(node)
+    }
+    
+    override func visit(_ node: PatternBindingListSyntax) -> PatternBindingListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: PatternBindingSyntax) -> PatternBindingSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: TypeAnnotationSyntax) -> TypeAnnotationSyntax {
+        return super.visit(node)
+    }
+    
+    override func visit(_ node: ArrayTypeSyntax) -> TypeSyntax {
+        return super.visit(node)
+    }
+    
+    override func visit(_ node: DeclModifierListSyntax) -> DeclModifierListSyntax {
         return super.visit(node)
     }
     
@@ -234,8 +289,44 @@ class IDRewriter: SyntaxRewriter {
         }
         return super.visit(node)
     }
+    override func visit(_ node: DeclNameArgumentsSyntax) -> DeclNameArgumentsSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: DeclNameArgumentListSyntax) -> DeclNameArgumentListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: DeclNameArgumentSyntax) -> DeclNameArgumentSyntax {
+        let oldName = node.name
+        if let repl = mapping[oldName.text] {
+            let leadingTrivia = oldName.leadingTrivia
+            let trailingTrivia = oldName.trailingTrivia
+            
+            let newName = TokenSyntax.identifier(repl)
+                        .with(\.leadingTrivia, leadingTrivia)
+                        .with(\.trailingTrivia, trailingTrivia)
+            
+            let newNode = node.with(\.name, newName)
+            
+            return super.visit(newNode)
+        }
+        return super.visit(node)
+    }
     
-    // .으로 멤버 접근
+    override func visit(_ node: InitializerClauseSyntax) -> InitializerClauseSyntax {
+        return super.visit(node)
+    }
+    
+    // 멤버 접근
+    override func visit(_ node: MemberBlockSyntax) -> MemberBlockSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: MemberBlockItemListSyntax) -> MemberBlockItemListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: MemberBlockItemSyntax) -> MemberBlockItemSyntax {
+        return super.visit(node)
+    }
+    
     override func visit(_ node: MemberAccessExprSyntax) -> ExprSyntax {
         let oldName = node.declName.baseName
         
@@ -277,6 +368,10 @@ class IDRewriter: SyntaxRewriter {
         return super.visit(newNode)
     }
     
+    override func visit(_ node: FunctionParameterClauseSyntax) -> FunctionParameterClauseSyntax {
+        return super.visit(node)
+    }
+    
     // 함수 라벨
     override func visit(_ node: LabeledExprSyntax) -> LabeledExprSyntax {
         guard let oldLabelToken = node.label else {
@@ -296,7 +391,21 @@ class IDRewriter: SyntaxRewriter {
         }
         return super.visit(node)
     }
-
+    
+    override func visit(_ node: LabeledExprListSyntax) -> LabeledExprListSyntax {
+        return super.visit(node)
+    }
+    
+    override func visit(_ node: ArrayExprSyntax) -> ExprSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: ArrayElementListSyntax) -> ArrayElementListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: ArrayElementSyntax) -> ArrayElementSyntax {
+        return super.visit(node)
+    }
+    
     override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
         return super.visit(node)
     }
@@ -393,6 +502,41 @@ class IDRewriter: SyntaxRewriter {
             let newNode = node.with(\.name, newName)
             return super.visit(newNode)
         }
+        return super.visit(node)
+    }
+ 
+    override func visit(_ node: TupleTypeSyntax) -> TypeSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: TupleTypeElementListSyntax) -> TupleTypeElementListSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: TupleTypeElementSyntax) -> TupleTypeElementSyntax {
+        var newNode = node
+        
+        if let oldFirstNameToken = node.firstName,
+           let repl = mapping[oldFirstNameToken.text] {
+                
+            let newFirstName = oldFirstNameToken.with(\.tokenKind, .identifier(repl))
+            newNode = newNode.with(\.firstName, newFirstName)
+        }
+
+        if let oldSecondName = node.secondName,
+           let repl = mapping[oldSecondName.text] {
+            let newSecondName = TokenSyntax.identifier(repl)
+                .with(\.leadingTrivia, oldSecondName.leadingTrivia)
+                .with(\.trailingTrivia, oldSecondName.trailingTrivia)
+            newNode = newNode.with(\.secondName, newSecondName)
+        }
+        
+        return super.visit(newNode)
+    }
+    
+    // 매크로
+    override func visit(_ node: MacroExpansionExprSyntax) -> ExprSyntax {
+        return super.visit(node)
+    }
+    override func visit(_ node: ClosureExprSyntax) -> ExprSyntax {
         return super.visit(node)
     }
 }

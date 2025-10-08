@@ -95,7 +95,7 @@ def collect_identifiers():
                 repeat_match_node(item, 1)
             for item in data:
                 repeat_match_node(item, 2)
-        
+
         type_info_path = "type_info.json"
         with open(type_info_path, "w", encoding="utf-8") as f:
             json.dump(IDENTIFIER, f, indent=2, ensure_ascii=False, default=list)
